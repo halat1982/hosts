@@ -14,11 +14,23 @@ cat > /etc/apache2/sites-available/$1.conf <<EOF
     DocumentRoot /var/www/$1
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+EOF
+if [[ $2 == 'restore' ]]; then
+    cat >> /etc/apache2/sites-available/$1.conf <<EOF
+    php_value short_open_tag 1
+    php_admin_value mbstring.func_overload 2
+    php_admin_value mbstring.internal_encoding UTF-8
+    php_admin_value opcache.revalidate_freq 0
+    php_value max_input_vars 10000
+EOF
+fi
+cat >> /etc/apache2/sites-available/$1.conf <<EOF    
 </VirtualHost>
 EOF
 sudo a2ensite $1 && \
 sudo systemctl reload apache2 && \
-echo "127.0.0.1  $1" >> /etc/hosts
+echo -e "127.0.0.1  \\$1" >> /etc/hosts
 cd /var/www/$1 
 
 if [[ $2 == 'restore' ]]; then	
