@@ -16,10 +16,10 @@ cat > /etc/apache2/sites-available/$1.conf <<EOF
     CustomLog ${APACHE_LOG_DIR}/access.log combined
     
 EOF
-if [[ $2 == 'restore' ]]; then
+if [[ $3 == 'bitrixapachesetting' ]]; then
     cat >> /etc/apache2/sites-available/$1.conf <<EOF
     php_value short_open_tag 1
-    php_admin_value mbstring.func_overload 2
+    php_admin_value mbstring.func_overload 0
     php_admin_value mbstring.internal_encoding UTF-8
     php_admin_value opcache.revalidate_freq 0
     php_value max_input_vars 10000
