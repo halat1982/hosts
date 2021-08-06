@@ -35,6 +35,8 @@ cd /var/www/$1
 
 if [[ $2 == 'restore' ]]; then	
 	wget http://www.1c-bitrix.ru/download/scripts/restore.php
+else if [[ $2 == 'install' ]]; then
+	wget http://www.1c-bitrix.ru/download/scripts/bitrixsetup.php
 fi	
 
 git init && \
